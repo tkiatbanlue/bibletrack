@@ -12,6 +12,7 @@ const StreakTracker = ({ user }) => {
       if (!user) return;
       
       try {
+        console.log('Calculating streak for user:', user.uid);
         // Get all progress records for the user, ordered by date
         const progressQuery = query(
           collection(db, 'progress'),
@@ -20,10 +21,13 @@ const StreakTracker = ({ user }) => {
         );
         
         const progressSnapshot = await getDocs(progressQuery);
+        console.log('Found progress documents for streak calculation:', progressSnapshot.size);
+        
         const progressDates = [];
         
         progressSnapshot.forEach(doc => {
           const { completed_at } = doc.data();
+          console.log('Processing progress document for streak:', { completed_at });
           // Convert Firestore timestamp to Date object
           const date = completed_at.toDate ? completed_at.toDate() : new Date(completed_at);
           // Get date without time (set to midnight)
@@ -31,9 +35,13 @@ const StreakTracker = ({ user }) => {
           progressDates.push(dateWithoutTime);
         });
         
+        console.log('Processed dates for streak calculation:', progressDates);
+        
         // Remove duplicate dates
         const uniqueDates = [...new Set(progressDates.map(date => date.getTime()))]
           .map(time => new Date(time));
+        
+        console.log('Unique dates for streak calculation:', uniqueDates);
         
         // Sort dates in descending order
         uniqueDates.sort((a, b) => b - a);
@@ -49,6 +57,8 @@ const StreakTracker = ({ user }) => {
         const readToday = uniqueDates.some(date => 
           date.getTime() === currentDate.getTime()
         );
+        
+        console.log('Read today:', readToday);
         
         // If user didn't read today, start from yesterday
         if (!readToday) {
@@ -69,6 +79,7 @@ const StreakTracker = ({ user }) => {
           }
         }
         
+        console.log('Calculated streak count:', streak);
         setStreakCount(streak);
       } catch (error) {
         console.error('Error calculating streak:', error);

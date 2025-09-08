@@ -1,27 +1,20 @@
-# Deployment Log
+=== Bible Reading Checklist Deployment ===
+This script will deploy your app to Surge.sh
 
-## Deployment Details
-- **Date**: Mon Sep 08 2025
-- **Time**: 21:05:00
-- **Domain**: unsightly-ducks.surge.sh
-- **Status**: Success
-- **Deployed by**: tkiatbanlue@gmail.com
+1. Building the project...
+✅ Build completed successfully
 
-## Application Information
-- **Name**: Bible Reading Checklist Webapp
-- **Version**: 0.1.0
-- **Build Status**: Success
-- **Features**: 
-  - User Authentication (Sign Up/Login)
-  - Bible Reading Checklist (66 books × chapters)
-  - Progress Tracking
-  - Leaderboard
-  - Rising Stars
-  - Streak Tracking
-  - Profile Management
+2. Deploying to Surge.sh...
+   You will be prompted to enter your email and password
+   Email: tkiatbanlue@gmail.com
+   Please enter your Surge.sh credentials when prompted
 
-## Access URL
-https://unsightly-ducks.surge.sh
+   Deploying to: bibletrack-20250908214513.surge.sh
 
-## Notes
-The application has been successfully deployed and is accessible to the public. All features have been implemented as per the PRD requirements.
+✅ Deployment completed successfully!
+   Your app is now live at: bibletrack-20250908214513.surge.sh
+
+📝 Deployment Details:
+Date: Mon Sep  8 21:45:13 +07 2025
+Domain: bibletrack-20250908214513.surge.sh
+Status: Success

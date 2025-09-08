@@ -10,8 +10,11 @@ const RisingStars = ({ currentUser }) => {
   useEffect(() => {
     const loadRisingStars = async () => {
       try {
+        console.log('Loading rising stars data...');
         // Get all users
         const usersSnapshot = await getDocs(collection(db, 'users'));
+        console.log('Found users:', usersSnapshot.size);
+        
         const users = [];
         
         usersSnapshot.forEach(doc => {
@@ -21,33 +24,51 @@ const RisingStars = ({ currentUser }) => {
           });
         });
         
+        console.log('Processed users data:', users);
+        
         // For each class year, find top 3 users by recent activity
         const classYears = [...new Set(users.map(user => user.class_year))];
+        console.log('Class years found:', classYears);
+        
         const risingStarsData = {};
         
         for (const year of classYears) {
+          console.log('Processing class year:', year);
           // Get users for this class year
           const yearUsers = users.filter(user => user.class_year === year);
+          console.log('Users in class year', year, ':', yearUsers);
           
           // For each user, calculate chapters read in past 7 days
           const userChapters = await Promise.all(
             yearUsers.map(async user => {
-              // Calculate date 7 days ago
-              const sevenDaysAgo = new Date();
-              sevenDaysAgo.setDate(sevenDaysAgo.getDate() - 7);
-              
-              // Get progress from past 7 days
-              const progressQuery = query(
-                collection(db, 'progress'),
-                where('user_id', '==', user.id),
-                where('completed_at', '>=', sevenDaysAgo)
-              );
-              
-              const progressSnapshot = await getDocs(progressQuery);
-              return {
-                ...user,
-                recentChapters: progressSnapshot.size
-              };
+              try {
+                // Calculate date 7 days ago
+                const sevenDaysAgo = new Date();
+                sevenDaysAgo.setDate(sevenDaysAgo.getDate() - 7);
+                
+                console.log('Calculating recent chapters for user:', user.id);
+                
+                // Get progress from past 7 days
+                const progressQuery = query(
+                  collection(db, 'progress'),
+                  where('user_id', '==', user.id),
+                  where('completed_at', '>=', sevenDaysAgo)
+                );
+                
+                const progressSnapshot = await getDocs(progressQuery);
+                console.log('Found recent progress documents for user', user.id, ':', progressSnapshot.size);
+                
+                return {
+                  ...user,
+                  recentChapters: progressSnapshot.size
+                };
+              } catch (userError) {
+                console.error('Error calculating recent chapters for user', user.id, ':', userError);
+                return {
+                  ...user,
+                  recentChapters: 0
+                };
+              }
             })
           );
           
@@ -57,8 +78,10 @@ const RisingStars = ({ currentUser }) => {
             .slice(0, 3);
           
           risingStarsData[year] = topUsers;
+          console.log('Top users for class year', year, ':', topUsers);
         }
         
+        console.log('Final rising stars data:', risingStarsData);
         setRisingStars(risingStarsData);
       } catch (error) {
         console.error('Error loading rising stars:', error);

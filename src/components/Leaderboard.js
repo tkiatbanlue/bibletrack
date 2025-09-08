@@ -11,6 +11,7 @@ const Leaderboard = ({ currentUser }) => {
   useEffect(() => {
     const loadLeaderboard = async () => {
       try {
+        console.log('Loading leaderboard data with filter:', filter);
         let q;
         
         if (filter === 'all') {
@@ -31,6 +32,8 @@ const Leaderboard = ({ currentUser }) => {
         }
         
         const querySnapshot = await getDocs(q);
+        console.log('Found users for leaderboard:', querySnapshot.size);
+        
         const leaderboardData = [];
         
         querySnapshot.forEach((doc) => {
@@ -40,6 +43,7 @@ const Leaderboard = ({ currentUser }) => {
           });
         });
         
+        console.log('Leaderboard data:', leaderboardData);
         setLeaderboard(leaderboardData);
       } catch (error) {
         console.error('Error loading leaderboard:', error);

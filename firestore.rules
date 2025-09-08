@@ -4,7 +4,7 @@ service cloud.firestore {
     // Users collection
     match /users/{userId} {
       // Allow users to read and write their own document
-      allow read, write: if request.auth.uid == userId;
+      allow read, write: if request.auth != null && request.auth.uid == userId;
       
       // Allow users to read other users' public data (for leaderboard)
       allow read: if request.auth != null;
@@ -12,8 +12,8 @@ service cloud.firestore {
     
     // Progress collection
     match /progress/{progressId} {
-      // Allow users to read and write their own progress
-      allow read, write: if request.auth.uid == resource.data.user_id;
+      // Allow users to create, read and update their own progress
+      allow create, read, update, delete: if request.auth != null && request.auth.uid == resource.data.user_id;
       
       // Allow users to read others' progress (for leaderboard calculations)
       allow read: if request.auth != null;
