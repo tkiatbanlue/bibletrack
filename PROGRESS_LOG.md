@@ -14,6 +14,8 @@
 - ✅ Styling and mobile-responsive design added
 - ✅ Build process successful
 - ✅ Deployed to Surge.sh
+- ✅ Fixed checklist recording issues
+- ✅ Enhanced error handling and logging
 
 ## Issues Encountered and Resolved
 1. Module resolution errors during build process
@@ -24,13 +26,18 @@
 2. React-scripts installation issues
    - Issue: "react-scripts: not found" during build
    - Resolution: Reinstalled react-scripts package
+3. Checklist recording issues
+   - Issue: Webapp not recording check marks
+   - Resolution: Fixed chapter count calculation logic in handleChapterChange function
+   - Resolution: Enhanced error handling and logging throughout the application
+   - Resolution: Updated Firestore security rules to ensure proper write permissions
 
 ## Firebase Setup
 - Firebase project created and configured
 - Environment variables set in .env file
 - Authentication enabled (Email/Password)
 - Firestore database created
-- Security rules implemented
+- Security rules implemented and updated
 
 ## Features Implemented
 - User authentication (Sign Up, Login)
@@ -43,7 +50,7 @@
 
 ## Deployment Information
 - **Platform**: Surge.sh
-- **URL**: https://unsightly-ducks.surge.sh
+- **URL**: https://bibletrack-20250908214513.surge.sh
 - **Status**: Successfully deployed
 - **Date**: Mon Sep 08 2025
 - **Deployed by**: tkiatbanlue@gmail.com
@@ -57,5 +64,5 @@
 ## Next Steps
 1. Test all functionality with real data
 2. Share with users for feedback
-3. Configure Firebase security rules for production use
-4. Monitor usage and performance
+3. Monitor usage and performance
+4. Continue refining error handling and user experience
