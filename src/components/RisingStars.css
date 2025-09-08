@@ -1,0 +1,88 @@
+/* Rising Stars Styles */
+.rising-stars-container {
+  background-color: #fff;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+  padding: 1.5rem;
+  margin-top: 2rem;
+}
+
+.rising-stars-header {
+  margin-bottom: 1.5rem;
+}
+
+.rising-stars-header h2 {
+  margin: 0 0 0.5rem 0;
+  color: #2c3e50;
+}
+
+.rising-stars-header p {
+  margin: 0;
+  color: #6c757d;
+}
+
+.class-year-section {
+  margin-bottom: 2rem;
+}
+
+.class-year-section:last-child {
+  margin-bottom: 0;
+}
+
+.class-year-section h3 {
+  margin: 0 0 1rem 0;
+  color: #2c3e50;
+  border-bottom: 1px solid #eee;
+  padding-bottom: 0.5rem;
+}
+
+.rising-stars-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.rising-star-item {
+  display: flex;
+  align-items: center;
+  padding: 0.75rem;
+  border-radius: 6px;
+  background-color: #f8f9fa;
+  transition: background-color 0.3s;
+}
+
+.rising-star-item:hover {
+  background-color: #e9ecef;
+}
+
+.rising-star-item.current-user {
+  background-color: #d1ecf1;
+  border: 1px solid #bee5eb;
+}
+
+.star-rank {
+  font-size: 1.2rem;
+  min-width: 40px;
+  text-align: center;
+  margin-right: 1rem;
+}
+
+.star-user {
+  flex: 1;
+}
+
+.user-name {
+  font-weight: 600;
+  color: #2c3e50;
+}
+
+.star-chapters {
+  font-weight: 600;
+  color: #fd7e14;
+}
+
+.no-data {
+  text-align: center;
+  padding: 2rem;
+  color: #6c757d;
+}

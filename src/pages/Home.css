@@ -1,0 +1,135 @@
+/* Home Page Styles */
+.home-container {
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.progress-header {
+  background-color: #fff;
+  padding: 2rem;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+  margin-bottom: 2rem;
+}
+
+.progress-header h1 {
+  margin-bottom: 1.5rem;
+  color: #2c3e50;
+}
+
+.progress-bar-container {
+  width: 100%;
+}
+
+.progress-info {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 0.5rem;
+  font-weight: 500;
+}
+
+.progress-bar {
+  width: 100%;
+  height: 20px;
+  background-color: #ecf0f1;
+  border-radius: 10px;
+  overflow: hidden;
+}
+
+.progress-fill {
+  height: 100%;
+  background: linear-gradient(90deg, #3498db, #2ecc71);
+  transition: width 0.3s ease;
+}
+
+.books-list {
+  display: grid;
+  gap: 1rem;
+}
+
+.book-item {
+  background-color: #fff;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+  overflow: hidden;
+}
+
+.book-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem 1.5rem;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.book-header:hover {
+  background-color: #f8f9fa;
+}
+
+.book-header h3 {
+  margin: 0;
+  color: #2c3e50;
+}
+
+.chapter-count {
+  font-weight: 500;
+  color: #7f8c8d;
+}
+
+.expand-icon {
+  font-size: 1.2rem;
+  color: #3498db;
+}
+
+.chapters-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(60px, 1fr));
+  gap: 0.5rem;
+  padding: 1rem 1.5rem;
+  border-top: 1px solid #eee;
+}
+
+.chapter-item {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.chapter-checkbox {
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+}
+
+.chapter-checkbox input {
+  margin-right: 0.5rem;
+  transform: scale(1.2);
+}
+
+.chapter-number {
+  font-weight: 500;
+}
+
+.loading {
+  text-align: center;
+  padding: 2rem;
+  font-size: 1.2rem;
+  color: #7f8c8d;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .progress-header {
+    padding: 1rem;
+  }
+  
+  .book-header {
+    padding: 0.75rem 1rem;
+  }
+  
+  .chapters-grid {
+    grid-template-columns: repeat(auto-fill, minmax(50px, 1fr));
+    padding: 0.75rem 1rem;
+  }
+}

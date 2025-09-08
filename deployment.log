@@ -1,0 +1,27 @@
+# Deployment Log
+
+## Deployment Details
+- **Date**: Mon Sep 08 2025
+- **Time**: 21:05:00
+- **Domain**: unsightly-ducks.surge.sh
+- **Status**: Success
+- **Deployed by**: tkiatbanlue@gmail.com
+
+## Application Information
+- **Name**: Bible Reading Checklist Webapp
+- **Version**: 0.1.0
+- **Build Status**: Success
+- **Features**: 
+  - User Authentication (Sign Up/Login)
+  - Bible Reading Checklist (66 books × chapters)
+  - Progress Tracking
+  - Leaderboard
+  - Rising Stars
+  - Streak Tracking
+  - Profile Management
+
+## Access URL
+https://unsightly-ducks.surge.sh
+
+## Notes
+The application has been successfully deployed and is accessible to the public. All features have been implemented as per the PRD requirements.
