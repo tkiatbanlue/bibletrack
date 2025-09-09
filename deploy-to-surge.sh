@@ -22,8 +22,8 @@ echo "   Email: tkiatbanlue@gmail.com"
 echo "   Please enter your Surge.sh credentials when prompted"
 echo ""
 
-# Deploy with a timestamp-based domain
-DOMAIN="bibletrack-$(date +%Y%m%d-%H%M%S).surge.sh"
+# Deploy with a static domain
+DOMAIN="bibletrack.surge.sh"
 echo "   Deploying to: $DOMAIN"
 echo ""
 
