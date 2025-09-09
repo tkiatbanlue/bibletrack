@@ -1,3 +1,10 @@
+// src/components/Layout.js - RECOMMENDED FIX
+
+// To test progress saving with proper authentication:
+// 1. Uncomment the useEffect hook that listens for auth state changes
+// 2. Remove the mock user object
+// 3. Use the actual authentication flow
+
 import React from 'react';
 import { BrowserRouter as Router, Routes, Route, Link } from 'react-router-dom';
 import Home from '../pages/Home';

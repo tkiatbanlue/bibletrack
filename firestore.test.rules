@@ -1,0 +1,29 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    // Users collection
+    match /users/{userId} {
+      // Allow users to read and write their own document
+      allow read, write: if request.auth != null && request.auth.uid == userId;
+      
+      // Allow users to read other users' public data (for leaderboard)
+      allow read: if request.auth != null;
+      
+      // Allow testing without auth for development
+      allow read, write: if request.resource.data.keys().hasAny(['test_mode']) && request.resource.data.test_mode == true;
+    }
+    
+    // Progress collection
+    match /progress/{progressId} {
+      // Allow users to create, read and update their own progress
+      allow create: if request.auth != null && request.auth.uid == request.resource.data.user_id;
+      allow read, update, delete: if request.auth != null && request.auth.uid == resource.data.user_id;
+      
+      // Allow users to read others' progress (for leaderboard calculations)
+      allow read: if request.auth != null;
+      
+      // Allow testing without auth for development
+      allow read, write, create, update, delete: if request.resource.data.keys().hasAny(['test_mode']) && request.resource.data.test_mode == true;
+    }
+  }
+}

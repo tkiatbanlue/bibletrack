@@ -12,12 +12,20 @@ service cloud.firestore {
     
     // Progress collection
     match /progress/{progressId} {
-      // Allow users to create, read and update their own progress
-      allow create: if request.auth != null && request.auth.uid == request.resource.data.user_id;
-      allow read, update, delete: if request.auth != null && request.auth.uid == resource.data.user_id;
+      // Allow users to create progress documents with their user_id
+      allow create: if request.auth != null && 
+                     request.resource.data.user_id == request.auth.uid;
       
-      // Allow users to read others' progress (for leaderboard calculations)
+      // Allow users to read progress documents (needed for loading progress)
       allow read: if request.auth != null;
+      
+      // Allow users to update their own progress documents
+      allow update: if request.auth != null && 
+                     resource.data.user_id == request.auth.uid;
+      
+      // Allow users to delete their own progress documents
+      allow delete: if request.auth != null && 
+                     resource.data.user_id == request.auth.uid;
     }
   }
 }

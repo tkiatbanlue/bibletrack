@@ -1,0 +1,36 @@
+# Apache Virtual Host Configuration for BibleTrack
+# Save this file as /etc/apache2/sites-available/bibletrack.conf
+# Then enable it with: sudo a2ensite bibletrack.conf
+# And restart Apache with: sudo systemctl reload apache2
+
+<VirtualHost *:80>
+    ServerName bibletrack.local
+    DocumentRoot /var/www/bibletrack
+    
+    # Enable rewrite engine for React Router
+    RewriteEngine On
+    
+    # Handle React Router routes
+    RewriteCond %{REQUEST_FILENAME} !-f
+    RewriteCond %{REQUEST_FILENAME} !-d
+    RewriteRule ^.*$ /index.html [QSA,L]
+    
+    # Security headers
+    Header always set X-Content-Type-Options nosniff
+    Header always set X-Frame-Options DENY
+    Header always set X-XSS-Protection "1; mode=block"
+    
+    # Logging
+    ErrorLog ${APACHE_LOG_DIR}/bibletrack_error.log
+    CustomLog ${APACHE_LOG_DIR}/bibletrack_access.log combined
+    
+    # Directory permissions
+    <Directory /var/www/bibletrack>
+        Options Indexes FollowSymLinks
+        AllowOverride All
+        Require all granted
+        
+        # Enable .htaccess for React Router
+        AllowOverride FileInfo
+    </Directory>
+</VirtualHost>

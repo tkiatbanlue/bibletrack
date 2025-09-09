@@ -16,6 +16,11 @@
 - ✅ Deployed to Surge.sh
 - ✅ Fixed checklist recording issues
 - ✅ Enhanced error handling and logging
+- ✅ Updated with latest deployment (September 2025)
+- ✅ Fixed blank page issue caused by routing configuration
+- ✅ Firestore permissions issue resolved
+- ✅ Firestore index requirements resolved
+- ✅ Application fully functional
 
 ## Issues Encountered and Resolved
 1. Module resolution errors during build process
@@ -34,6 +39,17 @@
 4. Checklist changes not saving
    - Issue: Check marks were not being saved reliably.
    - Resolution: Implemented a "Save Progress" button to batch updates, instead of saving on every check. This provides a more robust and predictable user experience.
+5. Blank page on deployment
+   - Issue: Application showed blank page after deployment to Surge.sh
+   - Resolution: Fixed homepage setting in package.json and corrected asset paths
+6. Firestore permissions error
+   - Issue: "Missing or insufficient permissions" when saving progress
+   - Resolution: Updated Firestore security rules to properly allow authenticated users to read/write their own data
+   - Status: ✅ Resolved - Rules deployed to Firebase Console
+7. Firestore index error
+   - Issue: "The query requires an index" when loading streak data
+   - Resolution: Created required indexes for compound queries
+   - Status: ✅ Resolved - Indexes deployed to Firebase Console
 
 ## Firebase Setup
 - Firebase project created and configured
@@ -41,6 +57,7 @@
 - Authentication enabled (Email/Password)
 - Firestore database created
 - Security rules implemented and updated
+- Required indexes created
 
 ## Features Implemented
 - User authentication (Sign Up, Login)
@@ -49,14 +66,14 @@
 - Leaderboard with filtering by class year
 - Rising Stars feature (top 3 most active readers in past 7 days)
 - Streak tracking with visual indicator
--    - Profile management (update display name and class year)
-   - Added a "Save Progress" button to allow users to manually save their progress.
+- Profile management (update display name and class year)
+- Added a "Save Progress" button to allow users to manually save their progress.
 
 ## Deployment Information
 - **Platform**: Surge.sh
-- **URL**: https://bibletrack-20250908214513.surge.sh
-- **Status**: Successfully deployed
-- **Date**: Mon Sep 08 2025
+- **URL**: https://bibletrack.surge.sh
+- **Status**: Successfully deployed and fully functional
+- **Date**: Wed Sep 10 2025
 - **Deployed by**: tkiatbanlue@gmail.com
 
 ## Technologies Used
@@ -70,3 +87,4 @@
 2. Share with users for feedback
 3. Monitor usage and performance
 4. Continue refining error handling and user experience
+5. Consider implementing offline support for better user experience

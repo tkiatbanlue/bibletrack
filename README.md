@@ -45,12 +45,18 @@ A lightweight, engaging webapp for seminary students to track Bible reading chap
 4. Set up Firebase:
    - Create a Firebase project at https://console.firebase.google.com/
    - Copy your Firebase configuration values
-   - Update the `.env` file with your Firebase credentials
+   - Create a `.env` file based on `.env.example` and update it with your Firebase credentials
 
 5. Start the development server:
    ```
    npm start
    ```
+
+## Environment Variables
+
+Create a `.env` file in the root directory with your Firebase configuration. See `.env.example` for the required variables.
+
+**Important**: Never commit your `.env` file to version control as it contains sensitive credentials.
 
 ## Deployment
 
