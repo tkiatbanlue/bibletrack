@@ -94,23 +94,35 @@ const Home = ({ user }) => {
 
   // Save pending changes to Firestore
   const handleSave = async () => {
-    console.log('Saving pending changes:', pendingChanges);
+    console.log('handleSave called');
+    console.log('Pending changes:', JSON.stringify(pendingChanges, null, 2));
+
+    if (Object.keys(pendingChanges).length === 0) {
+      console.log('No pending changes to save.');
+      return;
+    }
+
     try {
       for (const bookName in pendingChanges) {
         for (const chapterNum in pendingChanges[bookName]) {
           const isChecked = pendingChanges[bookName][chapterNum];
           const chapter = parseInt(chapterNum);
 
+          console.log(`Processing change: book=${bookName}, chapter=${chapter}, isChecked=${isChecked}`);
+
           if (isChecked) {
             // Add progress record
+            console.log('Adding progress record...');
             await addDoc(collection(db, 'progress'), {
               user_id: user.uid,
               book: bookName,
               chapter: chapter,
               completed_at: new Date()
             });
+            console.log('Progress record added.');
           } else {
             // Remove progress record
+            console.log('Removing progress record...');
             const progressQuery = query(
               collection(db, 'progress'),
               where('user_id', '==', user.uid),
@@ -118,8 +130,10 @@ const Home = ({ user }) => {
               where('chapter', '==', chapter)
             );
             const progressSnapshot = await getDocs(progressQuery);
+            console.log(`Found ${progressSnapshot.size} documents to delete.`);
             progressSnapshot.forEach(async (doc) => {
               await deleteDoc(doc.ref);
+              console.log(`Document ${doc.id} deleted.`);
             });
           }
         }
