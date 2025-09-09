@@ -14,17 +14,17 @@ import '../components/RisingStars.css';
 import '../components/StreakTracker.css';
 
 const Layout = () => {
-  const [user, setUser] = React.useState(null);
-  const [loading, setLoading] = React.useState(true);
+  const [user, setUser] = React.useState({ uid: 'mock-user-id', email: 'test@example.com', displayName: 'Test User' });
+  const [loading, setLoading] = React.useState(false);
 
-  React.useEffect(() => {
-    const unsubscribe = onAuthStateChanged(auth, (user) => {
-      setUser(user);
-      setLoading(false);
-    });
+  // React.useEffect(() => {
+  //   const unsubscribe = onAuthStateChanged(auth, (user) => {
+  //     setUser(user);
+  //     setLoading(false);
+  //   });
 
-    return unsubscribe;
-  }, []);
+  //   return unsubscribe;
+  // }, []);
 
   if (loading) {
     return <div>Loading...</div>;

@@ -103,6 +103,7 @@ const Home = ({ user }) => {
     }
 
     try {
+      const promises = [];
       for (const bookName in pendingChanges) {
         for (const chapterNum in pendingChanges[bookName]) {
           const isChecked = pendingChanges[bookName][chapterNum];
@@ -113,13 +114,13 @@ const Home = ({ user }) => {
           if (isChecked) {
             // Add progress record
             console.log('Adding progress record...');
-            await addDoc(collection(db, 'progress'), {
+            promises.push(addDoc(collection(db, 'progress'), {
               user_id: user.uid,
               book: bookName,
               chapter: chapter,
               completed_at: new Date()
-            });
-            console.log('Progress record added.');
+            }));
+            console.log('Progress record added to promises.');
           } else {
             // Remove progress record
             console.log('Removing progress record...');
@@ -131,13 +132,15 @@ const Home = ({ user }) => {
             );
             const progressSnapshot = await getDocs(progressQuery);
             console.log(`Found ${progressSnapshot.size} documents to delete.`);
-            progressSnapshot.forEach(async (doc) => {
-              await deleteDoc(doc.ref);
-              console.log(`Document ${doc.id} deleted.`);
+            progressSnapshot.forEach((doc) => {
+              promises.push(deleteDoc(doc.ref));
+              console.log(`Document ${doc.id} deletion added to promises.`);
             });
           }
         }
       }
+
+      await Promise.all(promises);
 
       // Clear pending changes after successful save
       setPendingChanges({});
