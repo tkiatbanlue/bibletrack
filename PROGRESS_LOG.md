@@ -31,6 +31,9 @@
    - Resolution: Fixed chapter count calculation logic in handleChapterChange function
    - Resolution: Enhanced error handling and logging throughout the application
    - Resolution: Updated Firestore security rules to ensure proper write permissions
+4. Checklist changes not saving
+   - Issue: Check marks were not being saved reliably.
+   - Resolution: Implemented a "Save Progress" button to batch updates, instead of saving on every check. This provides a more robust and predictable user experience.
 
 ## Firebase Setup
 - Firebase project created and configured
@@ -46,7 +49,8 @@
 - Leaderboard with filtering by class year
 - Rising Stars feature (top 3 most active readers in past 7 days)
 - Streak tracking with visual indicator
-- Profile management (update display name and class year)
+-    - Profile management (update display name and class year)
+   - Added a "Save Progress" button to allow users to manually save their progress.
 
 ## Deployment Information
 - **Platform**: Surge.sh

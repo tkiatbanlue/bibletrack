@@ -10,6 +10,7 @@ const Home = ({ user }) => {
   const [expandedBooks, setExpandedBooks] = useState({});
   const [userProgress, setUserProgress] = useState({});
   const [loading, setLoading] = useState(true);
+  const [pendingChanges, setPendingChanges] = useState({});
 
   // Toggle book expansion
   const toggleBook = (bookName) => {
@@ -62,6 +63,81 @@ const Home = ({ user }) => {
     loadProgress();
   }, [user]);
 
+  // Handle chapter checkbox change
+  const handleChapterChange = (bookName, chapterNum, isChecked) => {
+    // Update local state immediately for UI responsiveness
+    setUserProgress(prev => {
+      const newProgress = { ...prev };
+      if (isChecked) {
+        if (!newProgress[bookName]) {
+          newProgress[bookName] = [];
+        }
+        newProgress[bookName] = [...newProgress[bookName], chapterNum];
+      } else {
+        if (newProgress[bookName]) {
+          newProgress[bookName] = newProgress[bookName].filter(ch => ch !== chapterNum);
+        }
+      }
+      return newProgress;
+    });
+
+    // Stage changes to be saved
+    setPendingChanges(prev => {
+      const newChanges = { ...prev };
+      if (!newChanges[bookName]) {
+        newChanges[bookName] = {};
+      }
+      newChanges[bookName][chapterNum] = isChecked;
+      return newChanges;
+    });
+  };
+
+  // Save pending changes to Firestore
+  const handleSave = async () => {
+    console.log('Saving pending changes:', pendingChanges);
+    try {
+      for (const bookName in pendingChanges) {
+        for (const chapterNum in pendingChanges[bookName]) {
+          const isChecked = pendingChanges[bookName][chapterNum];
+          const chapter = parseInt(chapterNum);
+
+          if (isChecked) {
+            // Add progress record
+            await addDoc(collection(db, 'progress'), {
+              user_id: user.uid,
+              book: bookName,
+              chapter: chapter,
+              completed_at: new Date()
+            });
+          } else {
+            // Remove progress record
+            const progressQuery = query(
+              collection(db, 'progress'),
+              where('user_id', '==', user.uid),
+              where('book', '==', bookName),
+              where('chapter', '==', chapter)
+            );
+            const progressSnapshot = await getDocs(progressQuery);
+            progressSnapshot.forEach(async (doc) => {
+              await deleteDoc(doc.ref);
+            });
+          }
+        }
+      }
+
+      // Clear pending changes after successful save
+      setPendingChanges({});
+      console.log('All changes saved successfully.');
+
+      // Recalculate and update user's total chapter count
+      const newCount = Object.values(userProgress).reduce((total, chapters) => total + chapters.length, 0);
+      await updateUserChapterCount(newCount);
+
+    } catch (error) {
+      console.error('Error saving changes:', error);
+    }
+  };
+
   // Update user's chapter count in Firestore
   const updateUserChapterCount = async (newCount) => {
     try {
@@ -72,85 +148,6 @@ const Home = ({ user }) => {
       console.log('User chapter count updated successfully');
     } catch (error) {
       console.error('Error updating user chapter count:', error);
-    }
-  };
-
-  // Handle chapter checkbox change
-  const handleChapterChange = async (bookName, chapterNum, isChecked) => {
-    try {
-      console.log('handleChapterChange called:', { bookName, chapterNum, isChecked });
-      
-      if (isChecked) {
-        // Add progress record
-        const docRef = await addDoc(collection(db, 'progress'), {
-          user_id: user.uid,
-          book: bookName,
-          chapter: chapterNum,
-          completed_at: new Date()
-        });
-        
-        console.log('Progress document added:', docRef.id);
-        
-        // Update local state
-        setUserProgress(prev => {
-          const newProgress = { ...prev };
-          if (!newProgress[bookName]) {
-            newProgress[bookName] = [];
-          }
-          newProgress[bookName] = [...newProgress[bookName], chapterNum];
-          return newProgress;
-        });
-        
-        // Update user's chapter count
-        // Calculate new count based on updated state
-        setTimeout(async () => {
-          const updatedProgress = {...userProgress};
-          if (!updatedProgress[bookName]) {
-            updatedProgress[bookName] = [];
-          }
-          updatedProgress[bookName] = [...updatedProgress[bookName], chapterNum];
-          const newCount = Object.values(updatedProgress).reduce((total, chapters) => total + chapters.length, 0);
-          await updateUserChapterCount(newCount);
-        }, 0);
-      } else {
-        // Remove progress record
-        const progressQuery = query(
-          collection(db, 'progress'),
-          where('user_id', '==', user.uid),
-          where('book', '==', bookName),
-          where('chapter', '==', chapterNum)
-        );
-        
-        const progressSnapshot = await getDocs(progressQuery);
-        console.log('Found progress documents to delete:', progressSnapshot.size);
-        
-        progressSnapshot.forEach(async (doc) => {
-          await deleteDoc(doc.ref);
-          console.log('Progress document deleted:', doc.id);
-        });
-        
-        // Update local state
-        setUserProgress(prev => {
-          const newProgress = { ...prev };
-          if (newProgress[bookName]) {
-            newProgress[bookName] = newProgress[bookName].filter(ch => ch !== chapterNum);
-          }
-          return newProgress;
-        });
-        
-        // Update user's chapter count
-        // Calculate new count based on updated state
-        setTimeout(async () => {
-          const updatedProgress = {...userProgress};
-          if (updatedProgress[bookName]) {
-            updatedProgress[bookName] = updatedProgress[bookName].filter(ch => ch !== chapterNum);
-          }
-          const newCount = Object.values(updatedProgress).reduce((total, chapters) => total + chapters.length, 0);
-          await updateUserChapterCount(newCount);
-        }, 0);
-      }
-    } catch (error) {
-      console.error('Error updating progress:', error);
     }
   };
 
@@ -186,6 +183,7 @@ const Home = ({ user }) => {
     <div className="home-container">
       <div className="progress-header">
         <h1>Bible Reading Checklist</h1>
+        <button onClick={handleSave} className="save-button">Save Progress</button>
         <StreakTracker user={user} />
         <div className="progress-bar-container">
           <div className="progress-info">
@@ -237,6 +235,7 @@ const Home = ({ user }) => {
         ))}
       </div>
       
+      <button onClick={handleSave} className="save-button">Save Progress</button>
       <Leaderboard currentUser={user} />
       <RisingStars currentUser={user} />
     </div>
