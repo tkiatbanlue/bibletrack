@@ -6,6 +6,7 @@ This project is a complete Bible reading checklist web application designed for 
 ## Current Status
 ✅ MVP Phase 1: Complete
 ✅ MVP Phase 2: Complete
+✅ Internationalization & Groups: Complete
 ✅ Deployment: Successful (bibletrack.surge.sh)
 ✅ Testing: Passed
 ✅ Documentation: Complete
@@ -15,25 +16,36 @@ This project is a complete Bible reading checklist web application designed for 
 ### 1. User Authentication
 - Sign up with email/password
 - Login functionality
-- Profile management (display name, class year)
+- Profile management (display name, group selection/creation)
 
 ### 2. Bible Reading Checklist
 - Complete list of 66 Bible books with chapter counts
 - Interactive checklist for tracking reading progress
 - Visual progress bar showing overall completion percentage
 - Manual "Save Progress" button for reliability
+- Full localization in English and Thai
 
 ### 3. Gamification Features
 - **Streak Tracking**: Visual indicator showing consecutive days of reading
-- **Leaderboard**: Top 5 users by total chapters read, filterable by class year
-- **Rising Stars**: Top 3 most active readers in the past 7 days for each class year
+- **Leaderboard**: Top 5 users by total chapters read, filterable by group
+- **Rising Stars**: Top 3 most active readers in the past 7 days for each group
 
 ### 4. User Profile Management
 - Update display name
-- Update class year
+- Select existing group or create new group
 - View reading statistics
 
-### 5. Responsive Design
+### 5. Internationalization
+- Language toggle between English and Thai
+- Full localization of all UI elements
+- Correct Thai translations for all Bible book names
+
+### 6. Group-based Organization
+- Replaces class years with flexible group system
+- Users can select existing groups or create new ones
+- Leaderboard and Rising Stars organized by groups
+
+### 7. Responsive Design
 - Mobile-first approach
 - Works on all device sizes
 - Clean, intuitive user interface
@@ -46,6 +58,7 @@ This project is a complete Bible reading checklist web application designed for 
 - React Router v7 for navigation
 - CSS for styling
 - React 19.1.1
+- i18next and react-i18next for internationalization
 
 ### Backend Services
 - Firebase Authentication for user management
@@ -72,25 +85,31 @@ src/
 │   └── Profile.js     # User profile page
 ├── utils/
 │   └── bibleData.js   # Bible book data
+├── locales/           # Translation files
+│   ├── en/            # English translations
+│   └── th/            # Thai translations
 ├── firebase.js        # Firebase configuration
+├── i18n.js            # Internationalization setup
 └── App.js             # Main application component
 ```
 
 ## How to Use
 
 1. **Sign Up/Login**: Create an account or log in with existing credentials at https://bibletrack.surge.sh
-2. **Start Reading**: Use the checklist to mark chapters as you read them
-3. **Track Progress**: View your progress on the main dashboard
-4. **Compete**: Check the leaderboard and rising stars to see how you compare
-5. **Maintain Streaks**: Keep reading daily to maintain your streak
-6. **Save Progress**: Click the "Save Progress" button to ensure your changes are saved
+2. **Select/Create Group**: Choose an existing group or create a new one during signup
+3. **Switch Languages**: Use the language toggle in the navigation bar to switch between English and Thai
+4. **Start Reading**: Use the checklist to mark chapters as you read them
+5. **Track Progress**: View your progress on the main dashboard
+6. **Compete**: Check the leaderboard and rising stars to see how you compare
+7. **Maintain Streaks**: Keep reading daily to maintain your streak
+8. **Save Progress**: Click the "Save Progress" button to ensure your changes are saved
 
 ## Deployment Information
 
 - **Platform**: Surge.sh
 - **URL**: https://bibletrack.surge.sh
 - **Status**: Successfully deployed and verified
-- **Date**: Tue Sep 09 2025
+- **Date**: Wed Sep 10 2025
 - **Deployed by**: tkiatbanlue@gmail.com
 
 ## Future Enhancements

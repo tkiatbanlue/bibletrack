@@ -1,10 +1,35 @@
 import React, { useState, useEffect } from 'react';
 import { db } from '../firebase';
 import { collection, query, where, getDocs, orderBy } from 'firebase/firestore';
+import { useTranslation } from 'react-i18next';
 
 const RisingStars = ({ currentUser }) => {
   const [risingStars, setRisingStars] = useState({});
+  const [groups, setGroups] = useState([]);
   const [loading, setLoading] = useState(true);
+  const { t } = useTranslation();
+
+  // Load available groups
+  useEffect(() => {
+    const loadGroups = async () => {
+      try {
+        const groupsQuery = query(collection(db, 'groups'));
+        const groupsSnapshot = await getDocs(groupsQuery);
+        const groupsData = [];
+        groupsSnapshot.forEach((doc) => {
+          groupsData.push({
+            id: doc.id,
+            ...doc.data()
+          });
+        });
+        setGroups(groupsData);
+      } catch (error) {
+        console.error('Error loading groups:', error);
+      }
+    };
+
+    loadGroups();
+  }, []);
 
   // Calculate rising stars (top 3 users by chapters read in past 7 days)
   useEffect(() => {
@@ -26,21 +51,21 @@ const RisingStars = ({ currentUser }) => {
         
         console.log('Processed users data:', users);
         
-        // For each class year, find top 3 users by recent activity
-        const classYears = [...new Set(users.map(user => user.class_year))];
-        console.log('Class years found:', classYears);
+        // For each group, find top 3 users by recent activity
+        const groupIds = [...new Set(users.map(user => user.group).filter(Boolean))];
+        console.log('Groups found:', groupIds);
         
         const risingStarsData = {};
         
-        for (const year of classYears) {
-          console.log('Processing class year:', year);
-          // Get users for this class year
-          const yearUsers = users.filter(user => user.class_year === year);
-          console.log('Users in class year', year, ':', yearUsers);
+        for (const groupId of groupIds) {
+          console.log('Processing group:', groupId);
+          // Get users for this group
+          const groupUsers = users.filter(user => user.group === groupId);
+          console.log('Users in group', groupId, ':', groupUsers);
           
           // For each user, calculate chapters read in past 7 days
           const userChapters = await Promise.all(
-            yearUsers.map(async user => {
+            groupUsers.map(async user => {
               try {
                 // Calculate date 7 days ago
                 const sevenDaysAgo = new Date();
@@ -77,8 +102,8 @@ const RisingStars = ({ currentUser }) => {
             .sort((a, b) => b.recentChapters - a.recentChapters)
             .slice(0, 3);
           
-          risingStarsData[year] = topUsers;
-          console.log('Top users for class year', year, ':', topUsers);
+          risingStarsData[groupId] = topUsers;
+          console.log('Top users for group', groupId, ':', topUsers);
         }
         
         console.log('Final rising stars data:', risingStarsData);
@@ -93,22 +118,28 @@ const RisingStars = ({ currentUser }) => {
     loadRisingStars();
   }, []);
 
+  // Get group name by ID
+  const getGroupName = (groupId) => {
+    const group = groups.find(g => g.id === groupId);
+    return group ? group.name : 'Unknown Group';
+  };
+
   if (loading) {
-    return <div className="loading">Loading rising stars...</div>;
+    return <div className="loading">{t('risingStars.loading')}</div>;
   }
 
   return (
     <div className="rising-stars-container">
       <div className="rising-stars-header">
-        <h2>🚀 Rising Stars</h2>
-        <p>Top 3 most active readers in the past 7 days</p>
+        <h2>{t('risingStars.title')}</h2>
+        <p>{t('risingStars.subtitle')}</p>
       </div>
       
       <div className="rising-stars-content">
         {Object.keys(risingStars).length > 0 ? (
-          Object.entries(risingStars).map(([year, users]) => (
-            <div key={year} className="class-year-section">
-              <h3>Class of {year}</h3>
+          Object.entries(risingStars).map(([groupId, users]) => (
+            <div key={groupId} className="group-section">
+              <h3>{getGroupName(groupId)}</h3>
               <div className="rising-stars-list">
                 {users.map((user, index) => (
                   <div 
@@ -122,7 +153,7 @@ const RisingStars = ({ currentUser }) => {
                       <div className="user-name">{user.display_name}</div>
                     </div>
                     <div className="star-chapters">
-                      {user.recentChapters} chapters
+                      {user.recentChapters} {t('risingStars.chapters')}
                     </div>
                   </div>
                 ))}
@@ -130,7 +161,7 @@ const RisingStars = ({ currentUser }) => {
             </div>
           ))
         ) : (
-          <div className="no-data">No rising stars data available</div>
+          <div className="no-data">{t('risingStars.noData')}</div>
         )}
       </div>
     </div>

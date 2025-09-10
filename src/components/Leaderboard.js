@@ -1,11 +1,36 @@
 import React, { useState, useEffect } from 'react';
 import { db } from '../firebase';
 import { collection, query, orderBy, limit, getDocs, where } from 'firebase/firestore';
+import { useTranslation } from 'react-i18next';
 
 const Leaderboard = ({ currentUser }) => {
   const [leaderboard, setLeaderboard] = useState([]);
   const [filter, setFilter] = useState('all');
+  const [groups, setGroups] = useState([]);
   const [loading, setLoading] = useState(true);
+  const { t } = useTranslation();
+
+  // Load available groups
+  useEffect(() => {
+    const loadGroups = async () => {
+      try {
+        const groupsQuery = query(collection(db, 'groups'));
+        const groupsSnapshot = await getDocs(groupsQuery);
+        const groupsData = [];
+        groupsSnapshot.forEach((doc) => {
+          groupsData.push({
+            id: doc.id,
+            ...doc.data()
+          });
+        });
+        setGroups(groupsData);
+      } catch (error) {
+        console.error('Error loading groups:', error);
+      }
+    };
+
+    loadGroups();
+  }, []);
 
   // Load leaderboard data
   useEffect(() => {
@@ -22,10 +47,10 @@ const Leaderboard = ({ currentUser }) => {
             limit(5)
           );
         } else {
-          // Get top 5 users by chapters read for specific class year
+          // Get top 5 users by chapters read for specific group
           q = query(
             collection(db, 'users'),
-            where('class_year', '==', parseInt(filter)),
+            where('group', '==', filter),
             orderBy('chapters_read_count', 'desc'),
             limit(5)
           );
@@ -55,25 +80,29 @@ const Leaderboard = ({ currentUser }) => {
     loadLeaderboard();
   }, [filter]);
 
+  // Get group name by ID
+  const getGroupName = (groupId) => {
+    const group = groups.find(g => g.id === groupId);
+    return group ? group.name : 'Unknown Group';
+  };
+
   if (loading) {
-    return <div className="loading">Loading leaderboard...</div>;
+    return <div className="loading">{t('leaderboard.loading')}</div>;
   }
 
   return (
     <div className="leaderboard-container">
       <div className="leaderboard-header">
-        <h2>🏆 Leaderboard</h2>
+        <h2>{t('leaderboard.title')}</h2>
         <div className="leaderboard-filter">
           <select 
             value={filter} 
             onChange={(e) => setFilter(e.target.value)}
           >
-            <option value="all">All Classes</option>
-            <option value="2023">Class of 2023</option>
-            <option value="2024">Class of 2024</option>
-            <option value="2025">Class of 2025</option>
-            <option value="2026">Class of 2026</option>
-            <option value="2027">Class of 2027</option>
+            <option value="all">{t('leaderboard.allGroups')}</option>
+            {groups.map(group => (
+              <option key={group.id} value={group.id}>{group.name}</option>
+            ))}
           </select>
         </div>
       </div>
@@ -90,15 +119,15 @@ const Leaderboard = ({ currentUser }) => {
               </div>
               <div className="leaderboard-user">
                 <div className="user-name">{user.display_name}</div>
-                <div className="user-class">Class of {user.class_year}</div>
+                <div className="user-group">{getGroupName(user.group)}</div>
               </div>
               <div className="leaderboard-chapters">
-                {user.chapters_read_count} chapters
+                {user.chapters_read_count} {t('leaderboard.chapters')}
               </div>
             </div>
           ))
         ) : (
-          <div className="no-data">No leaderboard data available</div>
+          <div className="no-data">{t('leaderboard.noData')}</div>
         )}
       </div>
     </div>

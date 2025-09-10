@@ -13,6 +13,21 @@ service cloud.firestore {
       allow read, write: if request.resource.data.keys().hasAny(['test_mode']) && request.resource.data.test_mode == true;
     }
     
+    // Groups collection
+    match /groups/{groupId} {
+      // Allow all users to read groups
+      allow read: if request.auth != null;
+      
+      // Allow authenticated users to create groups
+      allow create: if request.auth != null;
+      
+      // Allow group creators to update their groups
+      allow update: if request.auth != null && resource.data.created_by == request.auth.uid;
+      
+      // Allow testing without auth for development
+      allow read, write, create, update, delete: if request.resource.data.keys().hasAny(['test_mode']) && request.resource.data.test_mode == true;
+    }
+    
     // Progress collection
     match /progress/{progressId} {
       // Allow users to create, read and update their own progress

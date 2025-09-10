@@ -70,6 +70,21 @@ body {
   background-color: #c0392b;
 }
 
+.btn-language-toggle {
+  background-color: #3498db;
+  color: white;
+  border: none;
+  padding: 0.5rem 1rem;
+  border-radius: 4px;
+  cursor: pointer;
+  font-weight: 500;
+  transition: background-color 0.3s;
+}
+
+.btn-language-toggle:hover {
+  background-color: #2980b9;
+}
+
 /* Auth Forms */
 .auth-container {
   display: flex;

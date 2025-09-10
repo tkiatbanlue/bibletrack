@@ -5,12 +5,14 @@ import { collection, query, where, getDocs, addDoc, deleteDoc, doc, updateDoc } 
 import StreakTracker from '../components/StreakTracker';
 import Leaderboard from '../components/Leaderboard';
 import RisingStars from '../components/RisingStars';
+import { useTranslation } from 'react-i18next';
 
 const Home = ({ user }) => {
   const [expandedBooks, setExpandedBooks] = useState({});
   const [userProgress, setUserProgress] = useState({});
   const [loading, setLoading] = useState(true);
   const [pendingChanges, setPendingChanges] = useState({});
+  const { t, i18n } = useTranslation();
 
   // Toggle book expansion
   const toggleBook = (bookName) => {
@@ -192,19 +194,24 @@ const Home = ({ user }) => {
 
   const progress = calculateProgress();
 
+  // Get translated book name
+  const getTranslatedBookName = (bookName) => {
+    return t(`bibleBooks.${bookName}`, bookName);
+  };
+
   if (loading) {
-    return <div className="loading">Loading your progress...</div>;
+    return <div className="loading">{t('home.loading')}</div>;
   }
 
   return (
     <div className="home-container">
       <div className="progress-header">
-        <h1>Bible Reading Checklist</h1>
-        <button onClick={handleSave} className="save-button">Save Progress</button>
+        <h1>{t('home.title')}</h1>
+        <button onClick={handleSave} className="save-button">{t('home.saveProgress')}</button>
         <StreakTracker user={user} />
         <div className="progress-bar-container">
           <div className="progress-info">
-            <span>Progress: {progress.completed}/{progress.total} chapters</span>
+            <span>{t('home.progress')}: {progress.completed}/{progress.total} {t('home.chapters')}</span>
             <span>{progress.percentage}%</span>
           </div>
           <div className="progress-bar">
@@ -223,7 +230,7 @@ const Home = ({ user }) => {
               className="book-header"
               onClick={() => toggleBook(book.name)}
             >
-              <h3>{book.name}</h3>
+              <h3>{getTranslatedBookName(book.name)}</h3>
               <span className="chapter-count">
                 {userProgress[book.name] ? userProgress[book.name].length : 0}/{book.chapters}
               </span>
@@ -252,7 +259,7 @@ const Home = ({ user }) => {
         ))}
       </div>
       
-      <button onClick={handleSave} className="save-button">Save Progress</button>
+      <button onClick={handleSave} className="save-button">{t('home.saveProgress')}</button>
       <Leaderboard currentUser={user} />
       <RisingStars currentUser={user} />
     </div>

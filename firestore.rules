@@ -10,6 +10,18 @@ service cloud.firestore {
       allow read: if request.auth != null;
     }
     
+    // Groups collection
+    match /groups/{groupId} {
+      // Allow all users to read groups
+      allow read: if request.auth != null;
+      
+      // Allow authenticated users to create groups
+      allow create: if request.auth != null;
+      
+      // Allow group creators to update their groups
+      allow update: if request.auth != null && resource.data.created_by == request.auth.uid;
+    }
+    
     // Progress collection
     match /progress/{progressId} {
       // Allow users to create progress documents with their user_id

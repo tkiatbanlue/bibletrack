@@ -1,10 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import { db } from '../firebase';
 import { collection, query, where, getDocs, orderBy } from 'firebase/firestore';
+import { useTranslation } from 'react-i18next';
 
 const StreakTracker = ({ user }) => {
   const [streakCount, setStreakCount] = useState(0);
   const [loading, setLoading] = useState(true);
+  const { t } = useTranslation();
 
   // Calculate streak count
   useEffect(() => {
@@ -92,7 +94,7 @@ const StreakTracker = ({ user }) => {
   }, [user]);
 
   if (loading) {
-    return <div className="streak-loading">Loading streak...</div>;
+    return <div className="streak-loading">{t('streak.loading')}</div>;
   }
 
   return (
@@ -101,7 +103,7 @@ const StreakTracker = ({ user }) => {
         <div className="streak-icon">🔥</div>
         <div className="streak-info">
           <div className="streak-count">{streakCount}</div>
-          <div className="streak-label">Day Streak</div>
+          <div className="streak-label">{t('streak.label')}</div>
         </div>
       </div>
     </div>

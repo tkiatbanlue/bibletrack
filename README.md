@@ -9,6 +9,8 @@ A lightweight, engaging webapp for seminary students to track Bible reading chap
 - 🔒 Secure login with email/password authentication
 - ⚡ Fully client-side architecture with zero backend management
 - 📱 Mobile-first, minimal, and visually inviting UI
+- 🌐 Language toggle (English/Thai) with full localization
+- 👥 Group-based organization (replaces class years)
 - 🆓 Free-tier friendly for 100–1,000+ users
 
 ## Tech Stack
@@ -17,6 +19,7 @@ A lightweight, engaging webapp for seminary students to track Bible reading chap
 - **Authentication**: Firebase Authentication
 - **Database**: Firestore (Firebase NoSQL)
 - **Hosting**: Surge.sh
+- **Internationalization**: i18next, react-i18next
 
 ## Getting Started
 
@@ -123,7 +126,13 @@ src/
 │   └── Profile.js
 ├── utils/
 │   └── bibleData.js
+├── locales/
+│   ├── en/
+│   │   └── translation.json
+│   └── th/
+│       └── translation.json
 ├── firebase.js
+├── i18n.js
 └── App.js
 ```
 
@@ -140,7 +149,13 @@ src/
 - Rising Stars logic
 - Animations + UX polish
 
-### Phase 3 – Optional Enhancements
+### Phase 3 – Internationalization & Groups (Completed)
+- Language toggle (English/Thai)
+- Full localization of all UI elements
+- Group-based organization (replaces class years)
+- Group creation functionality
+
+### Phase 4 – Optional Enhancements
 - Email summaries (e.g., weekly progress)
 - Monthly leaderboards
 - Dark mode toggle
