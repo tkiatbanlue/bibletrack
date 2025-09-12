@@ -166,3 +166,6 @@ src/
 - Monthly leaderboards
 - Dark mode toggle
 - Offline caching (Firestore persistence)
+- Cohort system for multiple communities with data isolation
+- Global leaderboard showing top users across all cohorts
+- Admin dashboard for cohort and user management

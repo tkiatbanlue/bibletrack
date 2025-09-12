@@ -1,0 +1,72 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    // Users collection
+    match /users/{userId} {
+      // Allow users to read and write their own document
+      allow read, write: if request.auth != null && request.auth.uid == userId;
+      
+      // Allow public read access for leaderboard (but not write)
+      allow read: if true;
+    }
+    
+    // Groups collection (existing - will be replaced with cohorts)
+    match /groups/{groupId} {
+      // Allow public read access to groups
+      allow read: if true;
+      
+      // Allow authenticated users to create groups
+      // When creating, ensure the created_by field matches the user's ID
+      allow create: if request.auth != null && 
+                     request.resource.data.created_by == request.auth.uid;
+      
+      // Allow group creators to update their groups
+      // Also allow group members to update group information
+      allow update: if request.auth != null && (
+                      resource.data.created_by == request.auth.uid || 
+                      request.resource.data.updated_by == request.auth.uid
+                    );
+    }
+    
+    // Cohorts collection (new)
+    match /cohorts/{cohortId} {
+      // Allow public read access to cohorts for selection
+      allow read: if true;
+      
+      // Allow authenticated users to create cohorts
+      // When creating, ensure the created_by field matches the user's ID
+      allow create: if request.auth != null && 
+                     request.resource.data.created_by == request.auth.uid;
+      
+      // Allow cohort creators and admins to update their cohorts
+      allow update: if request.auth != null && (
+                      resource.data.created_by == request.auth.uid || 
+                      exists(/databases/$(database)/documents/users/$(request.auth.uid)) &&
+                      get(/databases/$(database)/documents/users/$(request.auth.uid)).data.is_admin == true
+                    );
+      
+      // Allow admins to delete cohorts
+      allow delete: if request.auth != null && 
+                     exists(/databases/$(database)/documents/users/$(request.auth.uid)) &&
+                     get(/databases/$(database)/documents/users/$(request.auth.uid)).data.is_admin == true;
+    }
+    
+    // Progress collection
+    match /progress/{progressId} {
+      // Allow users to create progress documents with their user_id
+      allow create: if request.auth != null && 
+                     request.resource.data.user_id == request.auth.uid;
+      
+      // Allow users to read progress documents (needed for loading progress)
+      allow read: if request.auth != null;
+      
+      // Allow users to update their own progress documents
+      allow update: if request.auth != null && 
+                     resource.data.user_id == request.auth.uid;
+      
+      // Allow users to delete their own progress documents
+      allow delete: if request.auth != null && 
+                     resource.data.user_id == request.auth.uid;
+    }
+  }
+}

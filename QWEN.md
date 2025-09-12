@@ -129,6 +129,9 @@ src/
 - Offline caching
 - Email summaries
 - Monthly leaderboards
+- Cohort system for multiple communities with data isolation
+- Global leaderboard showing top users across all cohorts
+- Admin dashboard for cohort and user management
 
 ## Important Reminders
 - Do not test localhost with curl
