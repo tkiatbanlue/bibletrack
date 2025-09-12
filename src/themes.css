@@ -1,0 +1,93 @@
+/* Theme variables for light and dark modes */
+
+/* Light Theme */
+:root {
+  /* Primary colors */
+  --primary-color: #3498db;
+  --primary-dark: #2980b9;
+  --primary-light: #5dade2;
+  
+  /* Secondary colors */
+  --secondary-color: #9b59b6;
+  --secondary-dark: #8e44ad;
+  --secondary-light: #af7ac5;
+  
+  /* Accent colors */
+  --accent-success: #2ecc71;
+  --accent-success-dark: #27ae60;
+  --accent-warning: #f39c12;
+  --accent-warning-dark: #d35400;
+  --accent-danger: #e74c3c;
+  --accent-danger-dark: #c0392b;
+  
+  /* Background colors */
+  --bg-primary: #f8f9fa;
+  --bg-secondary: #ffffff;
+  --bg-tertiary: #f1f2f6;
+  
+  /* Text colors */
+  --text-primary: #2c3e50;
+  --text-secondary: #7f8c8d;
+  --text-tertiary: #95a5a6;
+  --text-light: #ffffff;
+  
+  /* Border colors */
+  --border-color: #ddd;
+  --border-color-light: #eee;
+  
+  /* Shadows */
+  --shadow-light: rgba(0, 0, 0, 0.1);
+  --shadow-medium: rgba(0, 0, 0, 0.15);
+  
+  /* Special components */
+  --streak-gradient-start: #ff9a9e;
+  --streak-gradient-end: #fad0c4;
+  --leaderboard-item-bg: #f8f9fa;
+  --rising-star-bg: #f8f9fa;
+}
+
+/* Dark Theme */
+[data-theme="dark"] {
+  /* Primary colors */
+  --primary-color: #5dade2;
+  --primary-dark: #2980b9;
+  --primary-light: #85c1e9;
+  
+  /* Secondary colors */
+  --secondary-color: #af7ac5;
+  --secondary-dark: #8e44ad;
+  --secondary-light: #bb8fce;
+  
+  /* Accent colors */
+  --accent-success: #2ecc71;
+  --accent-success-dark: #27ae60;
+  --accent-warning: #f39c12;
+  --accent-warning-dark: #d35400;
+  --accent-danger: #e74c3c;
+  --accent-danger-dark: #c0392b;
+  
+  /* Background colors */
+  --bg-primary: #1a1a2e;
+  --bg-secondary: #16213e;
+  --bg-tertiary: #0f3460;
+  
+  /* Text colors */
+  --text-primary: #ffffff;
+  --text-secondary: #e1e1e1;
+  --text-tertiary: #cccccc;
+  --text-light: #2c3e50;
+  
+  /* Border colors */
+  --border-color: #444;
+  --border-color-light: #333;
+  
+  /* Shadows */
+  --shadow-light: rgba(0, 0, 0, 0.3);
+  --shadow-medium: rgba(0, 0, 0, 0.5);
+  
+  /* Special components */
+  --streak-gradient-start: #8e44ad;
+  --streak-gradient-end: #3498db;
+  --leaderboard-item-bg: #16213e;
+  --rising-star-bg: #16213e;
+}

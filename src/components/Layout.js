@@ -5,10 +5,12 @@ import Profile from '../pages/Profile';
 import Login from '../components/auth/Login';
 import Signup from '../components/auth/Signup';
 import LanguageToggle from './LanguageToggle';
+import DarkModeToggle from './DarkModeToggle';
 import { auth } from '../firebase';
 import { onAuthStateChanged } from 'firebase/auth';
 import { useTranslation } from 'react-i18next';
 import '../App.css';
+import '../themes.css';
 import '../pages/Home.css';
 import '../pages/Profile.css';
 import '../components/Leaderboard.css';
@@ -54,6 +56,9 @@ const Layout = () => {
                   </button>
                 </li>
                 <li>
+                  <DarkModeToggle />
+                </li>
+                <li>
                   <LanguageToggle />
                 </li>
               </>
@@ -61,6 +66,9 @@ const Layout = () => {
               <>
                 <li><Link to="/login">{t('navigation.login')}</Link></li>
                 <li><Link to="/signup">{t('navigation.signup')}</Link></li>
+                <li>
+                  <DarkModeToggle />
+                </li>
                 <li>
                   <LanguageToggle />
                 </li>

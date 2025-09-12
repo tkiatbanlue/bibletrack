@@ -1,10 +1,10 @@
 /* Streak Tracker Styles */
 .streak-tracker {
-  background: linear-gradient(135deg, #ff9a9e 0%, #fad0c4 100%);
+  background: linear-gradient(135deg, var(--streak-gradient-start) 0%, var(--streak-gradient-end) 100%);
   border-radius: 8px;
   padding: 1rem;
   margin-bottom: 2rem;
-  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+  box-shadow: 0 2px 4px var(--shadow-light);
 }
 
 .streak-content {
@@ -16,6 +16,7 @@
 .streak-icon {
   font-size: 2rem;
   margin-right: 1rem;
+  color: var(--text-light);
 }
 
 .streak-info {
@@ -25,18 +26,18 @@
 .streak-count {
   font-size: 2rem;
   font-weight: 700;
-  color: #fff;
-  text-shadow: 0 2px 4px rgba(0,0,0,0.2);
+  color: var(--text-light);
+  text-shadow: 0 2px 4px var(--shadow-medium);
 }
 
 .streak-label {
   font-size: 0.9rem;
-  color: #fff;
-  text-shadow: 0 1px 2px rgba(0,0,0,0.2);
+  color: var(--text-light);
+  text-shadow: 0 1px 2px var(--shadow-medium);
 }
 
 .streak-loading {
   text-align: center;
   padding: 1rem;
-  color: #6c757d;
+  color: var(--text-secondary);
 }
