@@ -114,6 +114,9 @@ src/
 3. Updated all components to use translation functions
 4. Modified Firestore rules to support groups
 5. Updated documentation to reflect new features
+6. Enabled public access to leaderboard and rising stars without login
+7. Modified Rising Stars to show top readers by overall progress instead of recent activity
+8. Updated version to v0.9.3
 
 ## Common Issues & Solutions
 1. **Translation not showing**: Ensure all text is wrapped with `t()` function

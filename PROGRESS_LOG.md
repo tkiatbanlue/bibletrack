@@ -30,6 +30,11 @@
 - ✅ Removed redundant "Bible Reading Checklist" title
 - ✅ Fixed leaderboard display bug
 - ✅ Version tracking implemented
+- ✅ Added internationalization (i18n) support with English/Thai translations
+- ✅ Replaced class year system with flexible group system
+- ✅ Enabled public access to leaderboard and rising stars without login
+- ✅ Updated Rising Stars to show top readers by overall progress instead of recent activity
+- ✅ Updated version to v0.9.3
 
 ## Issues Encountered and Resolved
 1. Module resolution errors during build process
@@ -94,6 +99,7 @@
 - **Date**: Fri Sep 12 2025
 - **Deployed by**: tkiatbanlue@gmail.com
 - **Last Updated**: Fri Sep 12 2025, 17:45:35 +07
+- **Version**: 0.9.3
 
 ## Technologies Used
 - React (Create React App)

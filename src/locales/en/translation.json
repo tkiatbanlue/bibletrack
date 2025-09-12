@@ -1,6 +1,6 @@
 {
   "app": {
-    "title": "BibleTrack v0.9.2 - Bible reading log"
+    "title": "BibleTrack v0.9.3 - Bible reading log"
   },
   "navigation": {
     "home": "Home",
@@ -49,6 +49,10 @@
     "progress": "Progress",
     "chapters": "chapters"
   },
+  "publicHome": {
+    "welcome": "Welcome to BibleTrack",
+    "description": "Track your Bible reading progress and see how you compare with others in the community."
+  },
   "streak": {
     "loading": "Loading streak...",
     "label": "Day Streak"
@@ -63,7 +67,7 @@
   },
   "risingStars": {
     "title": "🚀 Rising Stars",
-    "subtitle": "Top 3 most active readers in the past 7 days",
+    "subtitle": "Top 3 readers by overall progress in each group",
     "noData": "No rising stars data available",
     "chapters": "chapters",
     "loading": "Loading rising stars..."

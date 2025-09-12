@@ -12,6 +12,7 @@ A lightweight, engaging webapp for seminary students to track Bible reading chap
 - 🌐 Language toggle (English/Thai) with full localization
 - 👥 Group-based organization (replaces class years)
 - 🆓 Free-tier friendly for 100–1,000+ users
+- 👀 Public access to leaderboards and rising stars without login
 
 ## Tech Stack
 
@@ -154,6 +155,11 @@ src/
 - Full localization of all UI elements
 - Group-based organization (replaces class years)
 - Group creation functionality
+
+### Phase 4 – Public Access (Completed)
+- Public access to leaderboards and rising stars without login
+- Modified Rising Stars to show top readers by overall progress instead of recent activity
+- Updated version to v0.9.3
 
 ### Phase 4 – Optional Enhancements
 - Email summaries (e.g., weekly progress)

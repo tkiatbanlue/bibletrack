@@ -19,6 +19,9 @@ The BibleTrack application has been successfully deployed and is fully functiona
 11. **Redundant Title**: Removed duplicate "Bible Reading Checklist" title
 12. **Leaderboard Display Bug**: Fixed incorrect group name display
 13. **Version Tracking**: Implemented version tracking in app title
+14. **Public Access**: Enabled public access to leaderboards and rising stars without login
+15. **Rising Stars Logic**: Modified Rising Stars to show top readers by overall progress instead of recent activity
+16. **Version Update**: Updated to v0.9.3
 
 ## 🚀 Features Working
 
@@ -38,6 +41,9 @@ The BibleTrack application has been successfully deployed and is fully functiona
 - [x] Cleaned up redundant UI elements
 - [x] Fixed leaderboard display bug
 - [x] Version tracking implemented
+- [x] Public access to leaderboards and rising stars without login
+- [x] Rising Stars shows top readers by overall progress instead of recent activity
+- [x] Version updated to v0.9.3
 
 ## 📋 Deployment Information
 
@@ -46,6 +52,7 @@ The BibleTrack application has been successfully deployed and is fully functiona
 - **Status**: Successfully deployed and fully functional
 - **Date**: Fri Sep 12 2025
 - **Last Updated**: Fri Sep 12 2025, 17:45:35 +07
+- **Version**: 0.9.3
 
 ## 🛠️ Technical Details
 
@@ -61,6 +68,9 @@ The BibleTrack application has been successfully deployed and is fully functiona
 2. Share with users for feedback
 3. Monitor usage and performance
 4. Consider implementing offline support for better user experience
+5. Add dark mode toggle
+6. Implement email summaries
+7. Add monthly leaderboards
 
 ## 📞 Support
 
