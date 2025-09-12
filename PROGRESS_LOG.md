@@ -21,6 +21,15 @@
 - ✅ Firestore permissions issue resolved
 - ✅ Firestore index requirements resolved
 - ✅ Application fully functional
+- ✅ Added password reset functionality to login page
+- ✅ Improved leaderboard filtering and display
+- ✅ Updated Bible book display layout (centered names, right-aligned progress)
+- ✅ Fixed leaderboard group filtering bug
+- ✅ Fixed "No leaderboard data available" issue
+- ✅ Updated website name to "Bible Tracker v0.9.1"
+- ✅ Removed redundant "Bible Reading Checklist" title
+- ✅ Fixed leaderboard display bug
+- ✅ Version tracking implemented
 
 ## Issues Encountered and Resolved
 1. Module resolution errors during build process
@@ -68,13 +77,23 @@
 - Streak tracking with visual indicator
 - Profile management (update display name and class year)
 - Added a "Save Progress" button to allow users to manually save their progress.
+- Password reset functionality added to login page
+- Improved leaderboard filtering and display
+- Updated Bible book display layout (centered names, right-aligned progress)
+- Fixed leaderboard group filtering bug
+- Fixed "No leaderboard data available" issue
+- Updated website name to "Bible Tracker v0.9.1"
+- Removed redundant "Bible Reading Checklist" title
+- Fixed leaderboard display bug
+- Version tracking implemented
 
 ## Deployment Information
 - **Platform**: Surge.sh
 - **URL**: https://bibletrack.surge.sh
 - **Status**: Successfully deployed and fully functional
-- **Date**: Wed Sep 10 2025
+- **Date**: Fri Sep 12 2025
 - **Deployed by**: tkiatbanlue@gmail.com
+- **Last Updated**: Fri Sep 12 2025, 17:45:35 +07
 
 ## Technologies Used
 - React (Create React App)

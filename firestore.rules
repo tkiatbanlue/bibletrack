@@ -16,10 +16,16 @@ service cloud.firestore {
       allow read: if request.auth != null;
       
       // Allow authenticated users to create groups
-      allow create: if request.auth != null;
+      // When creating, ensure the created_by field matches the user's ID
+      allow create: if request.auth != null && 
+                     request.resource.data.created_by == request.auth.uid;
       
       // Allow group creators to update their groups
-      allow update: if request.auth != null && resource.data.created_by == request.auth.uid;
+      // Also allow group members to update group information
+      allow update: if request.auth != null && (
+                      resource.data.created_by == request.auth.uid || 
+                      request.resource.data.updated_by == request.auth.uid
+                    );
     }
     
     // Progress collection

@@ -64,15 +64,20 @@
 
 .book-header h3 {
   margin: 0;
+  flex: 1;
+  text-align: center;
 }
 
 .chapter-count {
   font-size: 0.9em;
   color: #777;
+  text-align: right;
+  min-width: 60px;
 }
 
 .expand-icon {
   font-size: 0.8em;
+  margin-left: 10px;
 }
 
 /* Chapters grid styles */

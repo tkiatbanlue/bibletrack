@@ -53,6 +53,7 @@ src/
 - Node.js (v14 or higher)
 - npm or yarn
 - Firebase account
+- Surge.sh account (already installed)
 
 ### Installation Steps
 1. Clone the repository:
@@ -84,17 +85,12 @@ src/
    ```
 
 ### Deployment to Surge.sh
-1. Install Surge globally:
-   ```bash
-   npm install -g surge
-   ```
-
-2. Build the application:
+1. Build the application:
    ```bash
    npm run build
    ```
 
-3. Deploy to Surge:
+2. Deploy to Surge (Surge is already installed):
    ```bash
    surge build
    ```
@@ -119,13 +115,6 @@ src/
 4. Modified Firestore rules to support groups
 5. Updated documentation to reflect new features
 
-## Testing
-- Test language toggle functionality
-- Verify Thai translations are correct
-- Test group creation and selection
-- Verify leaderboard and rising stars work with groups
-- Test profile updates with group changes
-
 ## Common Issues & Solutions
 1. **Translation not showing**: Ensure all text is wrapped with `t()` function
 2. **Group not saving**: Check Firestore rules and group creation logic
@@ -137,3 +126,10 @@ src/
 - Offline caching
 - Email summaries
 - Monthly leaderboards
+
+## Important Reminders
+- Do not test localhost with curl
+- Surge.sh is already installed and configured
+- Application is deployed at https://bibletrack.surge.sh
+- Group feature replaces the old class year system completely
+- Always commit changes to Git after deployment

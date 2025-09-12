@@ -10,6 +10,7 @@ const Profile = ({ user }) => {
   const [group, setGroup] = useState('');
   const [newGroup, setNewGroup] = useState('');
   const [groups, setGroups] = useState([]);
+  const [showGroupManager, setShowGroupManager] = useState(false);
   const [loading, setLoading] = useState(true);
   const [updating, setUpdating] = useState(false);
   const [error, setError] = useState('');
@@ -81,15 +82,30 @@ const Profile = ({ user }) => {
         if (existingGroup) {
           groupId = existingGroup.id;
         } else {
-          // Create new group
-          const newGroupDoc = await addDoc(collection(db, 'groups'), {
-            name: newGroup.trim(),
-            created_at: new Date()
-          });
-          groupId = newGroupDoc.id;
-          // Add to local groups list
-          setGroups(prev => [...prev, { id: groupId, name: newGroup.trim() }]);
+          try {
+            // Create new group
+            const newGroupDoc = await addDoc(collection(db, 'groups'), {
+              name: newGroup.trim(),
+              created_at: new Date(),
+              created_by: user.uid  // Add creator info for permissions
+            });
+            groupId = newGroupDoc.id;
+            // Add to local groups list
+            setGroups(prev => [...prev, { id: groupId, name: newGroup.trim() }]);
+          } catch (groupError) {
+            console.error('Error creating group:', groupError);
+            setError(t('errors.updatingProfile') + groupError.message);
+            setUpdating(false);
+            return;
+          }
         }
+      }
+      
+      // Ensure we have a valid groupId
+      if (!groupId) {
+        setError(t('errors.selectGroup'));
+        setUpdating(false);
+        return;
       }
       
       // Update Firebase Authentication display name
@@ -157,6 +173,16 @@ const Profile = ({ user }) => {
                 <option key={group.id} value={group.id}>{group.name}</option>
               ))}
             </select>
+            
+            {group && (
+              <button 
+                type="button" 
+                onClick={() => setShowGroupManager(true)}
+                className="btn-secondary mt-2"
+              >
+                {t('profile.manageGroup')}
+              </button>
+            )}
           </div>
           
           <div className="form-group">
@@ -194,6 +220,39 @@ const Profile = ({ user }) => {
           </button>
         </div>
       </div>
+      
+      {/* Group Manager Modal */}
+      {showGroupManager && group && (
+        <div className="modal-overlay">
+          <div className="modal-content">
+            <div className="modal-header">
+              <h2>{t('profile.groupManager')}</h2>
+              <button 
+                className="modal-close" 
+                onClick={() => setShowGroupManager(false)}
+              >
+                &times;
+              </button>
+            </div>
+            <div className="modal-body">
+              <p>{t('profile.groupManagerDescription')}</p>
+              <div className="form-group">
+                <label>{t('profile.currentGroup')}</label>
+                <div>{groups.find(g => g.id === group)?.name || t('profile.unknownGroup')}</div>
+              </div>
+              <p>{t('profile.groupManagerComingSoon')}</p>
+            </div>
+            <div className="modal-footer">
+              <button 
+                className="btn-secondary" 
+                onClick={() => setShowGroupManager(false)}
+              >
+                {t('profile.close')}
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 };

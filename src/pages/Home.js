@@ -206,7 +206,6 @@ const Home = ({ user }) => {
   return (
     <div className="home-container">
       <div className="progress-header">
-        <h1>{t('home.title')}</h1>
         <button onClick={handleSave} className="save-button">{t('home.saveProgress')}</button>
         <StreakTracker user={user} />
         <div className="progress-bar-container">

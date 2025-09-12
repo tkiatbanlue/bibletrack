@@ -22,7 +22,11 @@ service cloud.firestore {
       allow create: if request.auth != null;
       
       // Allow group creators to update their groups
-      allow update: if request.auth != null && resource.data.created_by == request.auth.uid;
+      // Also allow group members to update group information
+      allow update: if request.auth != null && (
+                      resource.data.created_by == request.auth.uid || 
+                      request.resource.data.updated_by == request.auth.uid
+                    );
       
       // Allow testing without auth for development
       allow read, write, create, update, delete: if request.resource.data.keys().hasAny(['test_mode']) && request.resource.data.test_mode == true;

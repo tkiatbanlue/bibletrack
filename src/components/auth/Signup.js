@@ -82,13 +82,28 @@ const Signup = () => {
         if (existingGroup) {
           groupId = existingGroup.id;
         } else {
-          // Create new group
-          const newGroupDoc = await addDoc(collection(db, 'groups'), {
-            name: newGroup.trim(),
-            created_at: new Date()
-          });
-          groupId = newGroupDoc.id;
+          try {
+            // Create new group
+            const newGroupDoc = await addDoc(collection(db, 'groups'), {
+              name: newGroup.trim(),
+              created_at: new Date(),
+              created_by: user.uid  // Add creator info for permissions
+            });
+            groupId = newGroupDoc.id;
+          } catch (groupError) {
+            console.error('Error creating group:', groupError);
+            setError(t('errors.updatingProfile') + groupError.message);
+            setLoading(false);
+            return;
+          }
         }
+      }
+
+      // Ensure we have a valid groupId
+      if (!groupId) {
+        setError(t('auth.signup.selectGroup'));
+        setLoading(false);
+        return;
       }
 
       // Create user document in Firestore

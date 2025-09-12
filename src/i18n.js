@@ -19,7 +19,7 @@ i18n
   .use(initReactI18next)
   .init({
     resources,
-    fallbackLng: 'en',
+    fallbackLng: 'th', // Default to Thai instead of English
     debug: true,
     interpolation: {
       escapeValue: false

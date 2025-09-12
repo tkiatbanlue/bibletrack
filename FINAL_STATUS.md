@@ -10,6 +10,15 @@ The BibleTrack application has been successfully deployed and is fully functiona
 2. **Firebase Permissions**: Updated and deployed Firestore security rules
 3. **Firestore Indexes**: Created and deployed required indexes for all queries
 4. **Data Saving**: Progress saving works correctly with the "Save Progress" button
+5. **Password Reset**: Added password reset functionality to login page
+6. **Leaderboard Display**: Improved leaderboard filtering and display
+7. **UI Layout**: Updated Bible book display layout
+8. **Leaderboard Filtering**: Fixed leaderboard group filtering bug
+9. **Leaderboard Data Display**: Fixed "No leaderboard data available" issue
+10. **Website Name**: Updated to "Bible Tracker v0.9.1"
+11. **Redundant Title**: Removed duplicate "Bible Reading Checklist" title
+12. **Leaderboard Display Bug**: Fixed incorrect group name display
+13. **Version Tracking**: Implemented version tracking in app title
 
 ## 🚀 Features Working
 
@@ -21,13 +30,22 @@ The BibleTrack application has been successfully deployed and is fully functiona
 - [x] Streak tracking with visual indicator
 - [x] Profile management (update display name and class year)
 - [x] Manual "Save Progress" button for reliable progress saving
+- [x] Password reset functionality
+- [x] Improved UI layout for better readability
+- [x] Fixed leaderboard group filtering
+- [x] Fixed leaderboard data display issue
+- [x] Updated website name and version tracking
+- [x] Cleaned up redundant UI elements
+- [x] Fixed leaderboard display bug
+- [x] Version tracking implemented
 
 ## 📋 Deployment Information
 
 - **Platform**: Surge.sh
 - **URL**: https://bibletrack.surge.sh
 - **Status**: Successfully deployed and fully functional
-- **Date**: Wed Sep 10 2025
+- **Date**: Fri Sep 12 2025
+- **Last Updated**: Fri Sep 12 2025, 17:45:35 +07
 
 ## 🛠️ Technical Details
 

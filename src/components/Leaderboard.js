@@ -24,6 +24,7 @@ const Leaderboard = ({ currentUser }) => {
           });
         });
         setGroups(groupsData);
+        console.log('Loaded groups:', groupsData);
       } catch (error) {
         console.error('Error loading groups:', error);
       }
@@ -35,24 +36,26 @@ const Leaderboard = ({ currentUser }) => {
   // Load leaderboard data
   useEffect(() => {
     const loadLeaderboard = async () => {
+      setLoading(true);
       try {
         console.log('Loading leaderboard data with filter:', filter);
         let q;
         
-        if (filter === 'all') {
-          // Get top 5 users by chapters read
+        if (filter === 'all' || filter === '') {
+          // Get top 10 users by chapters read (all groups)
           q = query(
             collection(db, 'users'),
             orderBy('chapters_read_count', 'desc'),
-            limit(5)
+            limit(10)
           );
         } else {
-          // Get top 5 users by chapters read for specific group
+          // Get top 10 users by chapters read for specific group
+          console.log('Filtering by group ID:', filter);
           q = query(
             collection(db, 'users'),
             where('group', '==', filter),
             orderBy('chapters_read_count', 'desc'),
-            limit(5)
+            limit(10)
           );
         }
         
@@ -62,16 +65,19 @@ const Leaderboard = ({ currentUser }) => {
         const leaderboardData = [];
         
         querySnapshot.forEach((doc) => {
-          leaderboardData.push({
+          const userData = {
             id: doc.id,
             ...doc.data()
-          });
+          };
+          console.log('User data:', userData);
+          leaderboardData.push(userData);
         });
         
         console.log('Leaderboard data:', leaderboardData);
         setLeaderboard(leaderboardData);
       } catch (error) {
         console.error('Error loading leaderboard:', error);
+        setLeaderboard([]);
       } finally {
         setLoading(false);
       }
@@ -82,13 +88,10 @@ const Leaderboard = ({ currentUser }) => {
 
   // Get group name by ID
   const getGroupName = (groupId) => {
+    if (!groupId || groupId === 'all' || groupId === '') return '';
     const group = groups.find(g => g.id === groupId);
-    return group ? group.name : 'Unknown Group';
+    return group ? group.name : '';
   };
-
-  if (loading) {
-    return <div className="loading">{t('leaderboard.loading')}</div>;
-  }
 
   return (
     <div className="leaderboard-container">
@@ -97,7 +100,10 @@ const Leaderboard = ({ currentUser }) => {
         <div className="leaderboard-filter">
           <select 
             value={filter} 
-            onChange={(e) => setFilter(e.target.value)}
+            onChange={(e) => {
+              console.log('Group filter changed to:', e.target.value);
+              setFilter(e.target.value);
+            }}
           >
             <option value="all">{t('leaderboard.allGroups')}</option>
             {groups.map(group => (
@@ -107,29 +113,35 @@ const Leaderboard = ({ currentUser }) => {
         </div>
       </div>
       
-      <div className="leaderboard-list">
-        {leaderboard.length > 0 ? (
-          leaderboard.map((user, index) => (
-            <div 
-              key={user.id} 
-              className={`leaderboard-item ${currentUser && user.id === currentUser.uid ? 'current-user' : ''}`}
-            >
-              <div className="leaderboard-rank">
-                {index === 0 ? '🥇' : index === 1 ? '🥈' : index === 2 ? '🥉' : `#${index + 1}`}
+      {loading ? (
+        <div className="loading">{t('leaderboard.loading')}</div>
+      ) : (
+        <div className="leaderboard-list">
+          {leaderboard && leaderboard.length > 0 ? (
+            leaderboard.map((user, index) => (
+              <div 
+                key={user.id || index} 
+                className={`leaderboard-item ${currentUser && user.id === currentUser.uid ? 'current-user' : ''}`}
+              >
+                <div className="leaderboard-rank">
+                  {index === 0 ? '🥇' : index === 1 ? '🥈' : index === 2 ? '🥉' : `#${index + 1}`}
+                </div>
+                <div className="leaderboard-user">
+                  <div className="user-name">{user.display_name || 'Anonymous User'}</div>
+                  {filter !== 'all' && (
+                    <div className="user-group">{getGroupName(user.group)}</div>
+                  )}
+                </div>
+                <div className="leaderboard-chapters">
+                  {user.chapters_read_count || 0} {t('leaderboard.chapters')}
+                </div>
               </div>
-              <div className="leaderboard-user">
-                <div className="user-name">{user.display_name}</div>
-                <div className="user-group">{getGroupName(user.group)}</div>
-              </div>
-              <div className="leaderboard-chapters">
-                {user.chapters_read_count} {t('leaderboard.chapters')}
-              </div>
-            </div>
-          ))
-        ) : (
-          <div className="no-data">{t('leaderboard.noData')}</div>
-        )}
-      </div>
+            ))
+          ) : (
+            <div className="no-data">{t('leaderboard.noData')}</div>
+          )}
+        </div>
+      )}
     </div>
   );
 };
