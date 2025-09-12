@@ -12,3 +12,78 @@ Changes:
 - Updated index.html with favicon links
 Status: Success
 
+📝 Deployment Details:
+Date: พ. 12 ก.ย. 2568 13:45:00 +07
+Domain: bibletrack.surge.sh
+Changes: 
+- Deployed updated favicon changes
+- Added modern PNG favicon support
+Status: Success
+
+📝 Color Scheme and Dark Mode Implementation:
+Date: พ. 12 ก.ย. 2568 14:00:00 +07
+Changes:
+- Added vibrant color scheme with CSS variables
+- Implemented dark mode toggle functionality
+- Created theme support for all components
+- Added DarkModeToggle component
+- Updated all CSS files to use theme variables
+Status: Success
+
+📝 Deployment Details:
+Date: พ. 12 ก.ย. 2568 14:10:00 +07
+Domain: bibletrack.surge.sh
+Changes:
+- Deployed color scheme and dark mode implementation
+- Added theme persistence with localStorage
+Status: Success
+
+📝 UI Consistency Fix:
+Date: พ. 12 ก.ย. 2568 14:20:00 +07
+Changes:
+- Fixed dark mode toggle height to match logout and language buttons
+- Updated button styling for consistent navbar appearance
+Status: Success
+
+📝 App Title and Version Update:
+Date: พ. 12 ก.ย. 2568 14:30:00 +07
+Changes:
+- Updated app title to include version and localized descriptions
+- Changed from "Bible Tracker v0.9.1" to "BibleTrack v0.9.2 - Bible reading log" (English)
+- Changed from "Bible Tracker v0.9.1" to "BibleTrack v0.9.2 - บันทึกการอ่านพระคัมภีร์" (Thai)
+- Bumped version to 0.9.2
+Status: Success
+
+📝 Heading Consistency Update:
+Date: พ. 12 ก.ย. 2568 14:40:00 +07
+Changes:
+- Updated HTML title to be consistent with app title format
+- Simplified HTML title to "BibleTrack v0.9.2"
+Status: Success
+
+📝 Color Contrast Improvement:
+Date: พ. 12 ก.ย. 2568 15:00:00 +07
+Changes:
+- Improved color contrast for leaderboard and rising stars components
+- Updated green color from #2ecc71 to #27ae60 (darker, more readable)
+- Updated orange color from #f39c12 to #e67e22 (darker, more readable)
+- Added light variants for better visibility in dark mode
+Status: Success
+
+📝 Color Consistency Update:
+Date: พ. 12 ก.ย. 2568 15:10:00 +07
+Changes:
+- Changed chapter counts color to match username color for better clarity
+- Leaderboard chapters now use var(--text-primary) instead of green
+- Rising stars chapters now use var(--text-primary) instead of orange
+- This ensures maximum readability in both light and dark modes
+Status: Success
+
+📝 Feature Cleanup:
+Date: พ. 12 ก.ย. 2568 15:20:00 +07
+Changes:
+- Removed unused and broken group manager feature from profile page
+- Feature was incomplete and caused UI issues
+- Simplified profile page by removing non-essential code
+Status: Success
+
