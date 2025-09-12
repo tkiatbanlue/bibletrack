@@ -29,7 +29,9 @@ const DarkModeToggle = () => {
       className="btn-theme-toggle"
       aria-label={isDarkMode ? 'Switch to light mode' : 'Switch to dark mode'}
     >
-      {isDarkMode ? '☀️' : '🌙'}
+      <span style={{ fontSize: '1rem', lineHeight: '1' }}>
+        {isDarkMode ? '☀️' : '🌙'}
+      </span>
     </button>
   );
 };
