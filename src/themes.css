@@ -13,10 +13,12 @@
   --secondary-light: #af7ac5;
   
   /* Accent colors */
-  --accent-success: #2ecc71;
-  --accent-success-dark: #27ae60;
-  --accent-warning: #f39c12;
+  --accent-success: #27ae60;
+  --accent-success-dark: #219653;
+  --accent-success-light: #4cd97b;
+  --accent-warning: #e67e22;
   --accent-warning-dark: #d35400;
+  --accent-warning-light: #f39c12;
   --accent-danger: #e74c3c;
   --accent-danger-dark: #c0392b;
   
@@ -59,10 +61,12 @@
   --secondary-light: #bb8fce;
   
   /* Accent colors */
-  --accent-success: #2ecc71;
+  --accent-success: #4cd97b;
   --accent-success-dark: #27ae60;
+  --accent-success-light: #2ecc71;
   --accent-warning: #f39c12;
   --accent-warning-dark: #d35400;
+  --accent-warning-light: #f5b041;
   --accent-danger: #e74c3c;
   --accent-danger-dark: #c0392b;
   
