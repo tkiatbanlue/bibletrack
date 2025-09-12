@@ -78,7 +78,7 @@
 
 .leaderboard-chapters {
   font-weight: 600;
-  color: var(--accent-success-light);
+  color: var(--text-primary);
 }
 
 .no-data {
