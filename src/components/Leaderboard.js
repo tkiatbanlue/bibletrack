@@ -5,32 +5,31 @@ import { useTranslation } from 'react-i18next';
 
 const Leaderboard = ({ currentUser }) => {
   const [leaderboard, setLeaderboard] = useState([]);
-  const [filter, setFilter] = useState('all');
-  const [groups, setGroups] = useState([]);
+  const [filter, setFilter] = useState('global');
+  const [cohorts, setCohorts] = useState([]);
   const [loading, setLoading] = useState(true);
   const { t } = useTranslation();
 
-  // Load available groups
+  // Load available cohorts
   useEffect(() => {
-    const loadGroups = async () => {
+    const loadCohorts = async () => {
       try {
-        const groupsQuery = query(collection(db, 'groups'));
-        const groupsSnapshot = await getDocs(groupsQuery);
-        const groupsData = [];
-        groupsSnapshot.forEach((doc) => {
-          groupsData.push({
+        const cohortsQuery = query(collection(db, 'cohorts'));
+        const cohortsSnapshot = await getDocs(cohortsQuery);
+        const cohortsData = [];
+        cohortsSnapshot.forEach((doc) => {
+          cohortsData.push({
             id: doc.id,
             ...doc.data()
           });
         });
-        setGroups(groupsData);
-        console.log('Loaded groups:', groupsData);
+        setCohorts(cohortsData);
       } catch (error) {
-        console.error('Error loading groups:', error);
+        console.error('Error loading cohorts:', error);
       }
     };
 
-    loadGroups();
+    loadCohorts();
   }, []);
 
   // Load leaderboard data
@@ -38,30 +37,26 @@ const Leaderboard = ({ currentUser }) => {
     const loadLeaderboard = async () => {
       setLoading(true);
       try {
-        console.log('Loading leaderboard data with filter:', filter);
         let q;
         
-        if (filter === 'all' || filter === '') {
-          // Get top 10 users by chapters read (all groups)
+        if (filter === 'global') {
+          // Get top 10 users by chapters read (all users)
           q = query(
             collection(db, 'users'),
             orderBy('chapters_read_count', 'desc'),
             limit(10)
           );
         } else {
-          // Get top 10 users by chapters read for specific group
-          console.log('Filtering by group ID:', filter);
+          // Get top 10 users by chapters read for specific cohort
           q = query(
             collection(db, 'users'),
-            where('group', '==', filter),
+            where('cohort_id', '==', filter),
             orderBy('chapters_read_count', 'desc'),
             limit(10)
           );
         }
         
         const querySnapshot = await getDocs(q);
-        console.log('Found users for leaderboard:', querySnapshot.size);
-        
         const leaderboardData = [];
         
         querySnapshot.forEach((doc) => {
@@ -69,11 +64,9 @@ const Leaderboard = ({ currentUser }) => {
             id: doc.id,
             ...doc.data()
           };
-          console.log('User data:', userData);
           leaderboardData.push(userData);
         });
         
-        console.log('Leaderboard data:', leaderboardData);
         setLeaderboard(leaderboardData);
       } catch (error) {
         console.error('Error loading leaderboard:', error);
@@ -86,11 +79,11 @@ const Leaderboard = ({ currentUser }) => {
     loadLeaderboard();
   }, [filter]);
 
-  // Get group name by ID
-  const getGroupName = (groupId) => {
-    if (!groupId || groupId === 'all' || groupId === '') return '';
-    const group = groups.find(g => g.id === groupId);
-    return group ? group.name : '';
+  // Get cohort name by ID
+  const getCohortName = (cohortId) => {
+    if (!cohortId || cohortId === 'global') return '';
+    const cohort = cohorts.find(c => c.id === cohortId);
+    return cohort ? cohort.name : '';
   };
 
   return (
@@ -101,13 +94,12 @@ const Leaderboard = ({ currentUser }) => {
           <select 
             value={filter} 
             onChange={(e) => {
-              console.log('Group filter changed to:', e.target.value);
               setFilter(e.target.value);
             }}
           >
-            <option value="all">{t('leaderboard.allGroups')}</option>
-            {groups.map(group => (
-              <option key={group.id} value={group.id}>{group.name}</option>
+            <option value="global">{t('leaderboard.allCohorts')}</option>
+            {cohorts.map(cohort => (
+              <option key={cohort.id} value={cohort.id}>{cohort.name}</option>
             ))}
           </select>
         </div>
@@ -128,8 +120,8 @@ const Leaderboard = ({ currentUser }) => {
                 </div>
                 <div className="leaderboard-user">
                   <div className="user-name">{user.display_name || 'Anonymous User'}</div>
-                  {filter !== 'all' && (
-                    <div className="user-group">{getGroupName(user.group)}</div>
+                  {filter !== 'global' && (
+                    <div className="user-cohort">{getCohortName(user.cohort_id)}</div>
                   )}
                 </div>
                 <div className="leaderboard-chapters">

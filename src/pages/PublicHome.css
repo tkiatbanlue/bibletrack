@@ -1,0 +1,36 @@
+.public-home-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 20px;
+}
+
+.public-content {
+  display: grid;
+  grid-template-columns: 2fr 1fr;
+  gap: 30px;
+}
+
+.leaderboard-section h1 {
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.leaderboard-section p {
+  text-align: center;
+  margin-bottom: 30px;
+  font-size: 1.1em;
+  color: #666;
+}
+
+.login-section {
+  background-color: #f8f9fa;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+@media (max-width: 768px) {
+  .public-content {
+    grid-template-columns: 1fr;
+  }
+}

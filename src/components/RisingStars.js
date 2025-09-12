@@ -1,47 +1,42 @@
 import React, { useState, useEffect } from 'react';
 import { db } from '../firebase';
-import { collection, query, where, getDocs, orderBy } from 'firebase/firestore';
+import { collection, query, where, getDocs } from 'firebase/firestore';
 import { useTranslation } from 'react-i18next';
 
 const RisingStars = ({ currentUser }) => {
   const [risingStars, setRisingStars] = useState({});
-  const [groups, setGroups] = useState([]);
+  const [cohorts, setCohorts] = useState([]);
   const [loading, setLoading] = useState(true);
   const { t } = useTranslation();
 
-  // Load available groups
+  // Load available cohorts
   useEffect(() => {
-    const loadGroups = async () => {
+    const loadCohorts = async () => {
       try {
-        const groupsQuery = query(collection(db, 'groups'));
-        const groupsSnapshot = await getDocs(groupsQuery);
-        const groupsData = [];
-        groupsSnapshot.forEach((doc) => {
-          groupsData.push({
+        const cohortsQuery = query(collection(db, 'cohorts'));
+        const cohortsSnapshot = await getDocs(cohortsQuery);
+        const cohortsData = [];
+        cohortsSnapshot.forEach((doc) => {
+          cohortsData.push({
             id: doc.id,
             ...doc.data()
           });
         });
-        setGroups(groupsData);
+        setCohorts(cohortsData);
       } catch (error) {
-        console.error('Error loading groups:', error);
-        console.error('Error code:', error.code);
-        console.error('Error message:', error.message);
+        console.error('Error loading cohorts:', error);
       }
     };
 
-    loadGroups();
+    loadCohorts();
   }, []);
 
-  // Calculate rising stars (top 3 users by total chapters read in each group)
+  // Calculate rising stars (top 3 users by total chapters read in each cohort)
   useEffect(() => {
     const loadRisingStars = async () => {
       try {
-        console.log('Loading rising stars data...');
         // Get all users
         const usersSnapshot = await getDocs(collection(db, 'users'));
-        console.log('Found users:', usersSnapshot.size);
-        
         const users = [];
         
         usersSnapshot.forEach(doc => {
@@ -51,35 +46,26 @@ const RisingStars = ({ currentUser }) => {
           });
         });
         
-        console.log('Processed users data:', users);
-        
-        // For each group, find top 3 users by total chapters read
-        const groupIds = [...new Set(users.map(user => user.group).filter(Boolean))];
-        console.log('Groups found:', groupIds);
+        // For each cohort, find top 3 users by total chapters read
+        const cohortIds = [...new Set(users.map(user => user.cohort_id).filter(Boolean))];
         
         const risingStarsData = {};
         
-        for (const groupId of groupIds) {
-          console.log('Processing group:', groupId);
-          // Get users for this group
-          const groupUsers = users.filter(user => user.group === groupId);
-          console.log('Users in group', groupId, ':', groupUsers);
+        for (const cohortId of cohortIds) {
+          // Get users for this cohort
+          const cohortUsers = users.filter(user => user.cohort_id === cohortId);
           
           // Sort by total chapters read and take top 3
-          const topUsers = groupUsers
+          const topUsers = cohortUsers
             .sort((a, b) => (b.chapters_read_count || 0) - (a.chapters_read_count || 0))
             .slice(0, 3);
           
-          risingStarsData[groupId] = topUsers;
-          console.log('Top users for group', groupId, ':', topUsers);
+          risingStarsData[cohortId] = topUsers;
         }
         
-        console.log('Final rising stars data:', risingStarsData);
         setRisingStars(risingStarsData);
       } catch (error) {
         console.error('Error loading rising stars:', error);
-        console.error('Error code:', error.code);
-        console.error('Error message:', error.message);
       } finally {
         setLoading(false);
       }
@@ -88,10 +74,10 @@ const RisingStars = ({ currentUser }) => {
     loadRisingStars();
   }, []);
 
-  // Get group name by ID
-  const getGroupName = (groupId) => {
-    const group = groups.find(g => g.id === groupId);
-    return group ? group.name : 'Unknown Group';
+  // Get cohort name by ID
+  const getCohortName = (cohortId) => {
+    const cohort = cohorts.find(c => c.id === cohortId);
+    return cohort ? cohort.name : '';
   };
 
   if (loading) {
@@ -107,9 +93,9 @@ const RisingStars = ({ currentUser }) => {
       
       <div className="rising-stars-content">
         {Object.keys(risingStars).length > 0 ? (
-          Object.entries(risingStars).map(([groupId, users]) => (
-            <div key={groupId} className="group-section">
-              <h3>{getGroupName(groupId)}</h3>
+          Object.entries(risingStars).map(([cohortId, users]) => (
+            <div key={cohortId} className="cohort-section">
+              <h3>{getCohortName(cohortId)}</h3>
               <div className="rising-stars-list">
                 {users.map((user, index) => (
                   <div 

@@ -1,6 +1,7 @@
 import React from 'react';
 import { BrowserRouter as Router, Routes, Route, Link } from 'react-router-dom';
 import Home from '../pages/Home';
+import PublicHome from '../pages/PublicHome';
 import Profile from '../pages/Profile';
 import Login from '../components/auth/Login';
 import Signup from '../components/auth/Signup';
@@ -13,6 +14,7 @@ import '../App.css';
 import '../themes.css';
 import '../pages/Home.css';
 import '../pages/Profile.css';
+import '../pages/PublicHome.css';
 import '../components/Leaderboard.css';
 import '../components/RisingStars.css';
 import '../components/StreakTracker.css';
@@ -78,7 +80,7 @@ const Layout = () => {
         </nav>
         <main className="main-content">
           <Routes>
-            <Route path="/" element={user ? <Home user={user} /> : <Login />} />
+            <Route path="/" element={user ? <Home user={user} /> : <PublicHome />} />
             <Route path="/login" element={<Login />} />
             <Route path="/signup" element={<Signup />} />
             <Route path="/profile" element={user ? <Profile user={user} /> : <Login />} />
